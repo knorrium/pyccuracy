@@ -3,6 +3,7 @@
 #
 # Copyright (C) 2011 Iraê Carvalho <irae@irae.pro.br>
 # Copyright (C) 2011 Luiz Tadao Honda <lhonda@yahoo-inc.com>
+# Copyright (C) 2012 Felipe Knorr Kuhn <git@knorrium.info>
 #
 # Licensed under the Open Software License ("OSL") v. 3.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +18,7 @@
 # limitations under the License.
 
 import time
+import json
 import re
 
 selenium_available = True
@@ -26,6 +28,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 # except ImportError:
 #     selenium_available = False
 
@@ -45,14 +49,18 @@ class SeleniumWebdriver(BaseDriver):
         '''Create our driver instance'''
         host = self.context.settings.extra_args.get("selenium.server", "localhost")
         port = self.context.settings.extra_args.get("selenium.port", 4444)
+        dc = self.context.settings.extra_args.get("selenium.desiredcapabilities")
+        browser_to_run = self.context.settings.browser_to_run.upper()
         server_url = 'http://%s:%s/wd/hub' % (host, str(port))
-        browser_to_run = self.context.settings.browser_to_run
+        # raise RuntimeError(dc)
+        if (dc):
+            cap = json.loads(dc)
+        else:
+            cap = getattr(DesiredCapabilities, browser_to_run)
+        
+        driver = webdriver.Remote(command_executor=server_url, desired_capabilities=cap)
 
-        if hasattr(webdriver.DesiredCapabilities, browser_to_run.upper()):
-            browser_to_run = getattr(webdriver.DesiredCapabilities, browser_to_run.upper())
-
-        self.webdriver = webdriver.Remote(server_url, browser_to_run)
-
+        self.webdriver = driver
 
     def start_test(self, url=None):
         '''Start one task'''

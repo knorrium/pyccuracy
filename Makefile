@@ -15,6 +15,7 @@ unit_log_file=${build_dir}/unit.log
 functional_log_file=${build_dir}/functional.log
 
 browser="firefox"
+driver="selenium"
 pattern="*"
 
 help:
@@ -99,8 +100,8 @@ acceptance:
 	@echo "Starting tests..."
 	@echo "================="
 
-	@PYTHONPATH=`pwd`/pyccuracy/:$$PYTHONPATH python pyccuracy/pyccuracy_console.py -d ${root_dir}/tests/acceptance/action_tests/ -p "${pattern}en-us.acc" -l en-us -v 3 -b ${browser}
-	@PYTHONPATH=`pwd`/pyccuracy/:$$PYTHONPATH python pyccuracy/pyccuracy_console.py -d ${root_dir}/tests/acceptance/action_tests/ -p "${pattern}pt-br.acc" -l pt-br -v 3 -b ${browser}
+	@PYTHONPATH=`pwd`/pyccuracy/:$$PYTHONPATH python pyccuracy/pyccuracy_console.py -d ${root_dir}/tests/acceptance/action_tests/ -p "${pattern}en-us.acc" -l en-us -v 3 -b ${browser} -e ${driver}
+	@PYTHONPATH=`pwd`/pyccuracy/:$$PYTHONPATH python pyccuracy/pyccuracy_console.py -d ${root_dir}/tests/acceptance/action_tests/ -p "${pattern}pt-br.acc" -l pt-br -v 3 -b ${browser} -e ${driver}
 	@-make selenium_down
 
 dist: clean
