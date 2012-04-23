@@ -4,6 +4,7 @@
 # Copyright (C) 2011 Iraê Carvalho <irae@irae.pro.br>
 # Copyright (C) 2011 Luiz Tadao Honda <lhonda@yahoo-inc.com>
 # Copyright (C) 2012 Felipe Knorr Kuhn <git@knorrium.info>
+# Copyright (C) 2012 Julio Nobrega Netto <julionobreganetto@gmail.com>
 #
 # Licensed under the Open Software License ("OSL") v. 3.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,6 +29,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options
 # except ImportError:
@@ -224,20 +226,13 @@ class SeleniumWebdriver(BaseDriver):
         return self.get_element_text(element_selector) == ""
 
     def wait_for_element_present(self, element_selector, timeout):
-        elapsed = 0
-        interval = 0.5
-
-        while (elapsed < timeout):
-            elapsed += interval
+        while True:
             try:
-                elem = self._get_element(element_selector)
-                if elem.is_displayed():
-                    return True
-            except NoSuchElementException:
-                pass
-            time.sleep(interval)
-
-        return False
+                wait = WebDriverWait(self.webdriver, timeout)
+                element_present = wait.until(lambda x : self._get_element(element_selector).is_displayed())
+                return element_present
+            except StaleElementReferenceException:
+                continue
 
     def wait_for_element_to_disappear(self, element_selector, timeout):
         elapsed = 0
