@@ -7,6 +7,7 @@ Given
     I go to Google Search
 When
     I fill "query" textbox with "Hello World"
-    And I click "search" button
+    And I click "btnG" element
+    And I wait for "res" element to be present for 30 seconds
 Then
     #google loads
