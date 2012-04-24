@@ -21,3 +21,4 @@ python-build-stamp*
 .coverage
 Pyccuracy.egg-info
 actions_reference.textile
+chromedriver.log
