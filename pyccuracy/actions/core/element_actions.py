@@ -226,7 +226,7 @@ class ElementWaitForPresenceAction(ActionBase):
     '''h3. Examples
 
   * And I wait for "some" button element to be present
-  * And I wait for "other" textbox element to be present for 5 seconds
+  * And I wait for "other" textbox element to be present for 30 seconds
 
 h3. Description
 
@@ -252,7 +252,7 @@ class ElementWaitForDisappearAction(ActionBase):
     '''h3. Examples
 
   * And I wait for "some" button element to disappear
-  * And I wait for "other" textbox element to disappear for 5 seconds
+  * And I wait for "other" textbox element to disappear for 30 seconds
 
 h3. Description
 
