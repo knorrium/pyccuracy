@@ -59,7 +59,7 @@ class SeleniumWebdriver(BaseDriver):
             cap = json.loads(dc)
         else:
             cap = getattr(DesiredCapabilities, browser_to_run)
-        
+
         driver = webdriver.Remote(command_executor=server_url, desired_capabilities=cap)
 
         self.webdriver = driver
@@ -226,9 +226,9 @@ class SeleniumWebdriver(BaseDriver):
         return self.get_element_text(element_selector) == ""
 
     def wait_for_element_present(self, element_selector, timeout):
+        wait = WebDriverWait(self.webdriver, timeout)
         while True:
             try:
-                wait = WebDriverWait(self.webdriver, timeout)
                 element_present = wait.until(lambda x : self._get_element(element_selector).is_displayed())
                 return element_present
             except StaleElementReferenceException:
