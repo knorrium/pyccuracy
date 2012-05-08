@@ -84,7 +84,7 @@ def update_progress(fixture, scenario, scenario_index):
     global no_progress
     global prg
     global scenarios_ran
-    
+
     if not scenarios_ran is None:
         scenarios_ran += 1
     if not no_progress:
@@ -119,6 +119,7 @@ def main(arguments=sys.argv[1:]):
     parser.add_option("-A", "--customactionsdir", action="append", dest="custom_actions_dir", default=[], help="Custom Actions directory. Defines where the Pyccuracy custom actions are. If you don't change this parameter Pyccuracy will use the tests directory [default: %default].")
     parser.add_option("-P", "--pagesdir", action="append", dest="pages_dir", default=[], help="Pages directory. Defines where the Pyccuracy custom pages are. If you don't change this parameter Pyccuracy will use the tests directory [default: %default].")
     parser.add_option("-H", "--hooksdir", action="append", dest="hooks_dir", default=[], help="Hooks directory. Defines where Pyccuracy hooks are. If you don't change this parameter Pyccuracy will use the tests directory [default: %default].")
+    parser.add_option("-t", "--timeout", dest="timeout", default=30, help="Timeout in seconds. Actions default waiting time [default: %default].")
     parser.add_option("-u", "--url", dest="url", default=None, help="Base URL. Defines a base url against which the tests will get executed. For more details check the documentation [default: %default].")
     parser.add_option("-b", "--browser", dest="browser_to_run", default="firefox", help="Browser to run. Browser driver will use it to run tests [default: %default].")
     parser.add_option("-w", "--workers", dest="workers", default=1, help="Workers to run in parallel [default: %default].")
@@ -181,6 +182,7 @@ def main(arguments=sys.argv[1:]):
                            file_pattern=options.pattern,
                            scenarios_to_run=options.scenarios_to_run,
                            tests_dirs=options.dir,
+                           timeout=options.timeout,
                            base_url=options.url,
                            default_culture=options.language,
                            write_report=options.write_report.lower() == "true",

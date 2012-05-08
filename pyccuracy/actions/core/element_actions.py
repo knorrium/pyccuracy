@@ -22,29 +22,29 @@ Whenever you see [element_type|element_selector] what this means is that you hav
 h3. en-us:
   * button
   * radio button
-  * div 
-  * link 
-  * checkbox 
-  * select 
-  * textbox 
-  * image 
-  * paragraph 
-  * ul 
+  * div
+  * link
+  * checkbox
+  * select
+  * textbox
+  * image
+  * paragraph
+  * ul
   * li
   * table
   * element (only use this if none of the above apply)
 
 h3. pt-br:
-  * botão 
-  * radio 
-  * div 
-  * link 
-  * checkbox 
-  * select 
-  * caixa de texto 
-  * imagem 
-  * parágrafo 
-  * ul 
+  * botão
+  * radio
+  * div
+  * link
+  * checkbox
+  * select
+  * caixa de texto
+  * imagem
+  * parágrafo
+  * ul
   * li
   * tabela
   * elemento (só utilize este se nenhum dos outro se aplicar)
@@ -133,7 +133,7 @@ This action instructs the browser driver to click the given element. If the "and
         context.browser_driver.click_element(element_key)
 
         if (should_wait):
-            timeout = 30000
+            timeout = context.settings.timeout * 1000
             try:
                 context.browser_driver.wait_for_page(timeout=timeout)
             except Exception, error:
@@ -226,7 +226,7 @@ class ElementWaitForPresenceAction(ActionBase):
     '''h3. Examples
 
   * And I wait for "some" button element to be present
-  * And I wait for "other" textbox element to be present for 5 seconds
+  * And I wait for "other" textbox element to be present for 30 seconds
 
 h3. Description
 
@@ -241,7 +241,7 @@ This action is really useful when you have some processing done (maybe AJAX) bef
         element_key = resolve_element_key(context, element_type, element_name, self.resolve_element_key)
 
         if not timeout:
-            timeout = 5
+            timeout = context.settings.timeout
         timeout = int(timeout)
 
         if not context.browser_driver.wait_for_element_present(element_key, timeout):
@@ -252,7 +252,7 @@ class ElementWaitForDisappearAction(ActionBase):
     '''h3. Examples
 
   * And I wait for "some" button element to disappear
-  * And I wait for "other" textbox element to disappear for 5 seconds
+  * And I wait for "other" textbox element to disappear for 30 seconds
 
 h3. Description
 
@@ -267,7 +267,7 @@ This action is really useful when you have some processing done (maybe AJAX) bef
         element_key = resolve_element_key(context, element_type, element_name, self.resolve_element_key)
 
         if not timeout:
-            timeout = 5
+            timeout = context.settings.timeout
         timeout = int(timeout)
 
         if not context.browser_driver.wait_for_element_to_disappear(element_key, timeout):

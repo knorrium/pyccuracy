@@ -128,15 +128,15 @@ class Settings(object):
 
         self.actions_dir = self.get_setting(settings, "actions_dir", actions_dir)
         self.languages_dir = self.get_setting(settings, "languages_dir", languages_dir)
-        
+
         self.hooks_dir = self.get_setting(settings, "hooks_dir", self.tests_dirs)
         if not self.hooks_dir:
             self.hooks_dir = self.tests_dirs
-        
+
         self.pages_dir = self.get_setting(settings, "pages_dir", self.tests_dirs)
         if not self.pages_dir:
             self.pages_dir = self.tests_dirs
-        
+
         self.custom_actions_dir = self.get_setting(settings, "custom_actions_dir", self.tests_dirs)
         if not self.custom_actions_dir:
             self.custom_actions_dir = self.tests_dirs
@@ -148,6 +148,7 @@ class Settings(object):
 
         self.default_culture = self.get_setting(settings, "default_culture", "en-us")
         self.base_url = self.get_setting(settings, "base_url", None)
+        self.timeout = self.get_setting(settings, "timeout", 30)
         self.should_throw = self.get_setting(settings, "should_throw", False)
         self.write_report = self.get_setting(settings, "write_report", True)
         self.report_file_dir = self.get_setting(settings, "report_file_dir", cur_dir)
@@ -177,7 +178,7 @@ class Context(object):
     def __init__(self, settings):
         self.settings = settings
         if not settings.default_culture in AVAILABLE_GETTERS:
-            print "Invalid language %s. Available options are: %s. Defaulting to en-us." % (settings.default_culture, ", ".join(AVAILABLE_GETTERS.keys())) 
+            print "Invalid language %s. Available options are: %s. Defaulting to en-us." % (settings.default_culture, ", ".join(AVAILABLE_GETTERS.keys()))
             settings.default_culture = "en-us"
         self.language = AVAILABLE_GETTERS[settings.default_culture]
         self.browser_driver = DriverRegistry.get(settings.browser_driver)(self)
